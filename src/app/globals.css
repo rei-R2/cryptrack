@@ -1,4 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-  
+
+.card-watchlist,
+.navLink {
+  scrollbar-color: #141414 #272727;
+  scrollbar-width: none;
+}
