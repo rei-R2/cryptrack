@@ -11,22 +11,36 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
 
 export default function Navbar() {
   const pathname = usePathname();
 
   return (
-    <div className="fixed left-0 top-0 z-50 h-40 w-full bg-dark px-7 py-4">
-      <div className="mb-3 flex items-center justify-between">
-        <h1 className="font-audiowide text-xl text-white-custome">CrypTrack</h1>
+    <div className="fixed left-0 top-0 z-50 h-fit w-full bg-dark py-4">
+      <div className="mb-3 flex items-center justify-between px-7">
+        <div className="flex items-center">
+          <Link
+            href={"/home"}
+            className={`${pathname.match(/^\/detail/) ? "block" : "hidden"}`}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="30"
+              height="30"
+              fill="currentColor"
+              className="bi bi-arrow-left mr-1 rounded-full p-1 text-white-custome transition duration-500 hover:bg-light-gray-1"
+              viewBox="0 0 16 16"
+            >
+              <path
+                fillRule="evenodd"
+                d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8"
+              />
+            </svg>
+          </Link>
+          <h1 className="font-audiowide text-xl text-white-custome">
+            CrypTrack
+          </h1>
+        </div>
         <Sheet>
           <SheetTrigger className="relative h-12 w-12 rounded-full bg-white-custome">
             <Image
@@ -49,7 +63,9 @@ export default function Navbar() {
         </Sheet>
       </div>
 
-      <div className="navLink flex gap-x-2 overflow-x-auto">
+      <div
+        className={`${pathname.match(/^\/detail/) ? "hidden" : "block"} navLink flex gap-x-2 overflow-x-auto ps-7`}
+      >
         <Link
           className={`${pathname === "/home" ? "bg-light-green text-dark" : "bg-transparent text-white-custome"} rounded-full px-4 py-2 font-semibold`}
           href="/home"
@@ -64,7 +80,7 @@ export default function Navbar() {
           Watchlist
         </Link>
         <Link
-          className={`${pathname === "/categories" ? "bg-light-green text-dark" : "bg-transparent text-white-custome"} rounded-full px-4 py-2 font-semibold`}
+          className={`${pathname.match(/^\/categories/) ? "bg-light-green text-dark" : "bg-transparent text-white-custome"} rounded-full px-4 py-2 font-semibold`}
           href="/categories"
         >
           Categories
@@ -88,18 +104,6 @@ export default function Navbar() {
           Conversion
         </Link>
       </div>
-
-      <Breadcrumb className="mt-4">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/components">Components</BreadcrumbLink>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
     </div>
   );
 }
