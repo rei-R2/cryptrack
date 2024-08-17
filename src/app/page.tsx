@@ -4,7 +4,7 @@ import Started from "@/custome_components/layouts/introduction/started";
 
 export default function Home() {
   return (
-    <main className="h-fit w-full bg-dark font-poppins">
+    <main className="h-fit w-full overflow-hidden bg-dark font-poppins">
       <Started />
       <Description />
       <Feature />

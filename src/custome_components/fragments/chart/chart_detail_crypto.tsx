@@ -11,9 +11,22 @@ import { Bar, BarChart, CartesianGrid, Cell, LabelList } from "recharts";
 
 const chartConfig = {
   percent: {
-    label: "change(%)",
+    label: "change($)",
   },
 } satisfies ChartConfig;
+
+const CustomTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    return (
+      <div className="rounded-md bg-white-custome px-4 py-1">
+        <span className="mr-3 text-light-gray-1">change</span>
+        <span className="font-semibold text-light-gray-1">
+          {payload[0].value}%
+        </span>
+      </div>
+    );
+  }
+};
 
 export default function ChartDetailCrypto({
   dataPriceChange,
@@ -57,10 +70,11 @@ export default function ChartDetailCrypto({
           <CartesianGrid vertical={false} className="stroke-light-gray-1" />
           <ChartTooltip
             cursor={false}
-            content={<ChartTooltipContent hideLabel hideIndicator />}
+            // content={<ChartTooltipContent hideLabel hideIndicator />}
+            content={<CustomTooltip />}
           />
           <Bar dataKey="percent">
-            <LabelList position="top" dataKey="time" fillOpacity={1} />
+            <LabelList position="bottom" dataKey="time" fillOpacity={1} />
             {chartData.map((item) => (
               <Cell
                 key={item.time}
@@ -74,7 +88,7 @@ export default function ChartDetailCrypto({
           </Bar>
         </BarChart>
       </ChartContainer>
-      <p className="mt-2 text-center text-sm text-light-gray-2">price change</p>
+      <p className="mt-2 text-center text-xs text-light-gray-2">price change</p>
     </>
   );
 }

@@ -1,8 +1,25 @@
+import NextListCrypto from "@/custome_components/elements/next_list_crypto";
+import SearchCrypto from "@/custome_components/elements/search_crypto";
 import BreadcrumbCustome from "@/custome_components/fragments/breadcrumb";
-import ListCrypto from "@/custome_components/layouts/home/list_crypto_home";
+import ListCrypto from "@/custome_components/fragments/list_crypto";
+import { getCrypto, getListCrypto } from "@/utils/crypto";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
-export default function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams: {
+    page: string;
+    search: string;
+  };
+}) {
+  if (!searchParams.page) redirect("/home?page=1");
+
+  const crypto = searchParams.search
+    ? await getCrypto(searchParams.search)
+    : await getListCrypto(Number(searchParams.page));
+
   return (
     <div className="mt-32 min-h-screen bg-dark">
       <BreadcrumbCustome />
@@ -57,7 +74,14 @@ export default function Home() {
         </div>
       </div>
 
-      <ListCrypto />
+      <div className="relative overflow-hidden px-7">
+        <p className="mb-5 text-xl font-semibold text-white-custome">
+          List Crypto
+        </p>
+        <SearchCrypto />
+        <ListCrypto crypto={crypto} />
+        {searchParams.search ? <></> : crypto && <NextListCrypto />}
+      </div>
     </div>
   );
 }
