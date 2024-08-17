@@ -1,7 +1,10 @@
 import BreadcrumbCustome from "@/custome_components/fragments/breadcrumb";
-import ListCategories from "@/custome_components/layouts/categories/list_categories";
+import ListCategories from "@/custome_components/fragments/list_category";
+import { DataCategories } from "@/typs";
+import { getCategories } from "@/utils/crypto";
 
-export default function Categories() {
+export default async function Categories() {
+  const categories: DataCategories[] = await getCategories();
   return (
     <div className="mt-32 bg-dark">
       <BreadcrumbCustome />
@@ -9,8 +12,8 @@ export default function Categories() {
         Categories
       </p>
 
-      <div className="table-categories relative overflow-hidden pb-10">
-        <ListCategories />
+      <div className="table-categories relative overflow-hidden">
+        <ListCategories categories={categories} />
       </div>
     </div>
   );

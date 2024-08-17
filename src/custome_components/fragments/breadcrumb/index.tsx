@@ -12,7 +12,7 @@ import { usePathname } from "next/navigation";
 
 export default function BreadcrumbCustome() {
   const pathname = usePathname();
-  const links = pathname.split("/").slice(1);
+  const links = decodeURI(pathname).split("/").slice(1);
   const href: string[] = [];
 
   for (let i = 0; i < links.length; i++) {
@@ -36,7 +36,7 @@ export default function BreadcrumbCustome() {
             <BreadcrumbItem key={i}>
               <BreadcrumbLink
                 href={`${href[i / 2]}`}
-                className="hover:text-inherit"
+                className={`${i === 2 && "pointer-events-none"} hover:text-inherit`}
               >
                 {value}
               </BreadcrumbLink>
