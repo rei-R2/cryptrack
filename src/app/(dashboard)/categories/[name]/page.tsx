@@ -10,7 +10,6 @@ export default async function Category({
   searchParams: { id: string };
 }) {
   const category: DataCategory = await getCategory(searchParams.id);
-
   return (
     <div className="mt-32">
       <BreadcrumbCustome />

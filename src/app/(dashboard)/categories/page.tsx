@@ -6,15 +6,13 @@ import { getCategories } from "@/utils/crypto";
 export default async function Categories() {
   const categories: DataCategories[] = await getCategories();
   return (
-    <div className="mt-32 bg-dark">
+    <div className="relative h-screen pt-32">
       <BreadcrumbCustome />
       <p className="mb-4 px-7 text-xl font-semibold text-white-custome">
         Categories
       </p>
 
-      <div className="table-categories relative overflow-hidden">
-        <ListCategories categories={categories} />
-      </div>
+      <ListCategories categories={categories} />
     </div>
   );
 }

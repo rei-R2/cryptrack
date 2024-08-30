@@ -34,12 +34,12 @@ export default function ListExchange({
             <TableRow
               key={data.id}
               onClick={() => push(`/exchange/${data.name}?id=${data.id}`)}
-              className="cursor-pointer border-light-gray-1 py-1"
+              className="h-14 cursor-pointer border-light-gray-1"
             >
               <TableCell className="text-nowrap font-medium text-white-custome">
                 {data.name}
               </TableCell>
-              <TableCell className="flex justify-end text-white-custome">
+              <TableCell className="flex h-14 items-center justify-end text-white-custome">
                 <p
                   className={`${data.is_active ? "bg-green-custome" : "bg-red-500"} w-fit rounded-full px-3 py-1 text-xs`}
                 >

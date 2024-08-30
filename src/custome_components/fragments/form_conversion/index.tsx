@@ -27,7 +27,7 @@ const formSchema = z.object({
     .toUpperCase(),
 });
 
-export default function ConversionInput() {
+export default function FormConversion() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
@@ -37,7 +37,6 @@ export default function ConversionInput() {
 
   const handleSubmitForm = handleSubmit(async (value) => {
     const result = await conversionCurrency(value);
-    console.log(result);
     result && setDataConversion(result);
   });
 
@@ -114,14 +113,14 @@ export default function ConversionInput() {
 
               <div className="flex justify-evenly pb-5">
                 <div className="flex items-end gap-x-2">
-                  <p className="text-sm text-light-gray-2">name</p>
-                  <p className="text-nowrap text-base text-white-custome">
+                  <p className="text-xs text-light-gray-2">name</p>
+                  <p className="text-nowrap text-xs text-white-custome">
                     {data.name}
                   </p>
                 </div>
                 <div className="flex items-end gap-x-2">
-                  <p className="text-sm text-light-gray-2">update</p>
-                  <p className="text-nowrap text-base text-white-custome">
+                  <p className="text-xs text-light-gray-2">update</p>
+                  <p className="text-nowrap text-xs text-white-custome">
                     {formatDate(data.last_updated)}
                   </p>
                 </div>

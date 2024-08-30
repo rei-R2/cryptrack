@@ -2,7 +2,6 @@ import clsx from "clsx";
 import { DataCrypto } from "@/typs";
 import Link from "next/link";
 import { formatCurrency } from "@/utils/formatData";
-import { space } from "postcss/lib/list";
 
 export default function ListCrypto({
   crypto,
@@ -19,7 +18,7 @@ export default function ListCrypto({
         <div className="relative h-fit w-full pb-9">
           {crypto!.map((data) => (
             <Link href={`/detail/${data.id}`} key={data.id} scroll={true}>
-              <div className="mb-4 flex w-full justify-between">
+              <div className="mb-5 flex w-full justify-between">
                 <div className="flex items-center gap-x-3">
                   {/* <div className="relative h-8 w-8">
             <Image
