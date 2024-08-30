@@ -21,8 +21,14 @@ export const getListCrypto = async (page: number) => {
   }
 };
 
-export const getCrypto = async (value: string) => {
-  const query = Number(value) ? `id=${value}` : `slug=${value}`;
+export const getCrypto = async ({
+  by,
+  data,
+}: {
+  by: string;
+  data: string | string[];
+}) => {
+  const query = by === "id" ? `id=${data}` : `slug=${data}`;
   const result = await fetch(
     `https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest?${query}`,
     {
@@ -39,7 +45,7 @@ export const getCrypto = async (value: string) => {
     for (const id in result.data) {
       cryptos.push(result.data[id]);
     }
-    return Number(value) ? cryptos[0] : cryptos;
+    return cryptos;
   } else {
     return undefined;
   }
@@ -87,7 +93,7 @@ export const getCategory = async (idCategory: string) => {
   }
 };
 
-export const getInfoCrypto = async (id: string) => {
+export const getInfoCrypto = async (id: string[]) => {
   const result = await fetch(
     `https://pro-api.coinmarketcap.com/v2/cryptocurrency/info?id=${id}`,
     {
@@ -99,7 +105,12 @@ export const getInfoCrypto = async (id: string) => {
   ).then((data) => data.json());
 
   if (result.status.error_code === 0) {
-    return result.data[id];
+    // return id.length > 1 ? result.data : result.data[id[0]];
+    let listCrypto = [];
+    for (const i in result.data) {
+      listCrypto.push(result.data[i]);
+    }
+    return listCrypto;
   } else {
     return undefined;
   }

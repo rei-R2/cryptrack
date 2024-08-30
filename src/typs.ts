@@ -213,3 +213,44 @@ export interface DataConversion {
     };
   };
 }
+
+export interface Watchlist {
+  id: number;
+  crypto_id: string;
+  created_at: Date;
+  user_id: string;
+}
+
+export interface DataUser {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  img: string;
+  watchlist: Watchlist[];
+}
+
+export interface RowData {
+  name: string;
+  market_cap: number;
+  market_cap_change: number;
+  avg_price_change: number;
+  volume: number;
+  volume_change: number;
+}
+
+export interface ValueFormatterParams<TValue = number> {
+  value: TValue;
+}
+
+export interface GridApi {
+  getSelectedRows: () => DataCategories[];
+}
+
+export interface Sessionn {
+  user: {
+    name: string | undefined;
+    email: string;
+    image: string | undefined;
+  };
+}

@@ -12,12 +12,44 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import { getUser } from "@/utils/users";
+import { DataUser } from "@/typs";
 
 export default function Navbar() {
-  const { back, refresh } = useRouter();
+  const { back, refresh, push } = useRouter();
   const pathname = usePathname();
   const [intervalRefresh, setIntervalRefresh] = useState<number>(0);
+  const { data } = useSession();
+  const [dataUser, setDataUser] = useState<DataUser>({
+    id: "",
+    username: "",
+    email: "",
+    password: "",
+    img: "",
+    watchlist: [
+      {
+        id: 0,
+        crypto_id: "",
+        created_at: new Date(),
+        user_id: "",
+      },
+    ],
+  });
+
+  const getUserById = useCallback(async () => {
+    const user =
+      data && (await getUser({ by: "id", value: data.user.id as string }));
+    if (user?.status === 200) {
+      setDataUser(user.data as DataUser);
+    }
+  }, [data]);
+
+  useEffect(() => {
+    getUserById();
+  }, [getUserById]);
 
   useEffect(() => {
     if (pathname === "/home") {
@@ -37,13 +69,19 @@ export default function Navbar() {
     }
   }, [intervalRefresh, pathname, refresh]);
 
+  useEffect(() => {
+    pathname === "/home" && getUserById();
+  }, [getUserById, pathname]);
+
   return (
     <div className="fixed left-0 top-0 z-50 h-fit w-full bg-dark pt-4">
       <div className="mb-4 flex items-center justify-between px-7">
         <div className="flex items-center">
           <Button
-            className={`${pathname.match(/^\/detail|profile/) ? "block" : "hidden"} mr-1 flex h-8 w-8 items-center justify-center rounded-full bg-transparent p-1 text-white-custome transition duration-500 hover:bg-light-gray-1`}
-            onClick={() => back()}
+            className={`${pathname.match(/^\/detail|profile/) ? "flex" : "hidden"} mr-1 h-8 w-8 items-center justify-center rounded-full bg-transparent p-1 text-white-custome transition duration-500 hover:bg-light-gray-1`}
+            onClick={() =>
+              pathname.match(/^\/profile/) ? push("/home") : back()
+            }
           >
             <svg
               className="-translate-x-[1px]"
@@ -63,22 +101,46 @@ export default function Navbar() {
               />
             </svg>
           </Button>
-          <h1 className="font-audiowide text-lg text-white-custome">
+          <Link
+            href={"/home"}
+            className="cursor-pointer font-audiowide text-lg text-white-custome"
+          >
             CrypTrack
-          </h1>
+          </Link>
         </div>
         <Sheet>
-          <SheetTrigger
-            className={`${pathname.match(/^\/profile/) && "hidden"} relative h-10 w-10 rounded-full bg-white-custome`}
-          >
-            <Image
-              src="/photo profile.png"
-              alt="photo profile"
-              fill={true}
-              sizes="100%"
-              className="object-cover"
-            />
-          </SheetTrigger>
+          {dataUser.img ? (
+            <SheetTrigger
+              className={`${pathname.match(/^\/profile/) && "hidden"} relative h-10 w-10 overflow-hidden rounded-full bg-white-custome`}
+            >
+              <Image
+                src={dataUser.img}
+                alt="photo profile"
+                fill={true}
+                sizes="100%"
+                className="object-cover"
+              />
+            </SheetTrigger>
+          ) : (
+            <SheetTrigger
+              className={`${pathname.match(/^\/profile/) && "hidden"} relative h-10 w-10 overflow-hidden rounded-full bg-light-gray-1`}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="40"
+                height="40"
+                fill="currentColor"
+                className="bi bi-person-circle mx-auto text-light-gray-2"
+                viewBox="0 0 16 16"
+              >
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                <path
+                  fillRule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                />
+              </svg>
+            </SheetTrigger>
+          )}
           <SheetContent className="border-light-gray-1 bg-dark px-0 text-light-gray-2">
             <SheetHeader>
               <SheetTitle className="text-white-custome">Profile</SheetTitle>
@@ -87,19 +149,38 @@ export default function Navbar() {
               <div className="h-40 w-full bg-gradient-to-t from-light-gray-1 from-10% to-dark" />
               <div className="relative">
                 <div className="absolute -top-10 left-5">
-                  <div className="relative h-20 w-20">
-                    <Image
-                      src="/photo profile.png"
-                      alt="photo profile"
-                      fill={true}
-                      sizes="100%"
-                      className="object-cover"
-                    />
-                  </div>
+                  {dataUser.img ? (
+                    <div className="relative h-20 w-20 overflow-hidden rounded-full">
+                      <Image
+                        src={dataUser.img}
+                        alt="photo profile"
+                        fill={true}
+                        sizes="100%"
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-20 w-20 overflow-hidden rounded-full bg-light-gray-1">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="80"
+                        height="80"
+                        fill="currentColor"
+                        className="bi bi-person-circle mx-auto text-light-gray-2"
+                        viewBox="0 0 16 16"
+                      >
+                        <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                        <path
+                          fillRule="evenodd"
+                          d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                        />
+                      </svg>
+                    </div>
+                  )}
                   <p className="mt-2 text-2xl font-semibold text-white-custome">
-                    Jhon Doe
+                    {dataUser.username}
                   </p>
-                  <p className="text-sm text-light-gray-2">JhonDoe@gmail.com</p>
+                  <p className="text-sm text-light-gray-2">{dataUser.email}</p>
                   <div className="mt-4 flex gap-x-3">
                     <Link href="/profile">
                       <SheetClose className="flex items-center rounded-full bg-light-gray-2 px-4 py-[6px] font-semibold text-dark transition duration-500 hover:bg-light-gray-2/80">
@@ -120,7 +201,10 @@ export default function Navbar() {
                         edit
                       </SheetClose>
                     </Link>
-                    <Button className="rounded-full bg-red-500 font-semibold text-dark transition duration-500 hover:bg-red-500/80">
+                    <Button
+                      onClick={() => signOut()}
+                      className="rounded-full bg-red-500 font-semibold text-dark transition duration-500 hover:bg-red-500/80"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -149,7 +233,7 @@ export default function Navbar() {
       </div>
 
       <div
-        className={`${pathname.match(/^\/detail|profile/) ? "hidden" : "block"} navLink flex gap-x-2 overflow-x-auto pb-3 ps-7 pt-1`}
+        className={`${pathname.match(/^\/detail|profile/) ? "hidden" : "block"} navLink flex gap-x-2 overflow-x-auto px-7 pb-3 pt-1`}
       >
         <Link
           className={`${pathname === "/home" ? "bg-light-green text-dark" : "bg-transparent text-white-custome"} rounded-full px-4 py-2 font-semibold`}
@@ -160,7 +244,7 @@ export default function Navbar() {
 
         <Link
           className={`${pathname === "/watchlist" ? "bg-light-green text-dark" : "bg-transparent text-white-custome"} rounded-full px-4 py-2 font-semibold`}
-          href="/watchlist"
+          href={`/watchlist?user=${data?.user.id}`}
         >
           Watchlist
         </Link>

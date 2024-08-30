@@ -1,5 +1,5 @@
 import BreadcrumbCustome from "@/custome_components/fragments/breadcrumb";
-import ConversionInput from "@/custome_components/fragments/conversion_input";
+import FormConversion from "@/custome_components/fragments/form_conversion";
 
 export default function Conversion() {
   return (
@@ -11,7 +11,7 @@ export default function Conversion() {
           Conversion
         </p>
 
-        <ConversionInput />
+        <FormConversion />
       </div>
     </div>
   );
