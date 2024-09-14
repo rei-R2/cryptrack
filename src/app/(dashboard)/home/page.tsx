@@ -21,19 +21,27 @@ export default async function Home({
     : await getListCrypto(Number(searchParams.page));
 
   return (
-    <div className="mt-32 min-h-screen bg-dark">
+    <div className="relative mt-32 h-full bg-dark md:ml-56 md:mt-0">
       <BreadcrumbCustome />
-      <p className="px-7 text-xl font-semibold text-white-custome">Watchlist</p>
+      <div className="absolute top-14 hidden h-1 w-full bg-light-gray-1 md:block" />
 
-      <ListCardWatchlist />
+      <div className="flex h-full w-full flex-col md:rounded-none md:pt-5 lg:flex-row">
+        <div>
+          <p className="px-7 text-xl font-semibold text-white-custome md:pb-3">
+            Watchlist
+          </p>
+          <ListCardWatchlist />
+        </div>
 
-      <div className="relative overflow-hidden px-7">
-        <p className="mb-5 text-xl font-semibold text-white-custome">
-          List Crypto
-        </p>
-        <SearchCrypto />
-        <ListCrypto crypto={crypto} />
-        {searchParams.search ? <></> : crypto && <NextListCrypto />}
+        <div className="table-categories relative w-full overflow-hidden px-7 md:overflow-x-auto">
+          <p className="mb-5 text-xl font-semibold text-white-custome md:mb-6">
+            List Crypto
+          </p>
+          <SearchCrypto />
+
+          <ListCrypto crypto={crypto} />
+          {searchParams.search ? <></> : crypto && <NextListCrypto />}
+        </div>
       </div>
     </div>
   );

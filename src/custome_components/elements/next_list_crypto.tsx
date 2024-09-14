@@ -21,7 +21,7 @@ export default function NextListCrypto() {
       onClick={() => {
         setPage(page + 1);
       }}
-      className={`absolute bottom-0 left-1/2 w-full -translate-x-1/2 bg-gradient-to-b from-dark to-light-gray-1 py-5 text-sm font-semibold text-light-gray-2 hover:bg-inherit`}
+      className={`absolute bottom-0 left-1/2 w-full -translate-x-1/2 rounded-none bg-inherit bg-gradient-to-b from-dark/0 to-dark py-5 text-sm font-semibold text-light-gray-2 hover:bg-inherit md:fixed md:bottom-0 md:left-56 md:w-[75vw] md:translate-x-0 lg:absolute lg:bottom-14 lg:left-1/2 lg:w-full lg:-translate-x-1/2`}
     >
       see more
     </Button>

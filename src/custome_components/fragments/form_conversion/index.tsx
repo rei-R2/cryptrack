@@ -41,9 +41,9 @@ export default function FormConversion() {
   });
 
   return (
-    <div className="w-full">
+    <div className="w-full overflow-hidden md:h-[85vh] lg:flex lg:gap-x-10">
       <Form {...form}>
-        <form onSubmit={handleSubmitForm}>
+        <form onSubmit={handleSubmitForm} className="w-full lg:w-96">
           <div className="flex w-full justify-center gap-x-4">
             <FormField
               control={control}
@@ -55,7 +55,7 @@ export default function FormConversion() {
                     <Input
                       type="number"
                       placeholder="$1000"
-                      className="mb-4 w-full rounded-md border-none bg-light-gray-1 text-white-custome"
+                      className="mb-4 w-full rounded-none border-none bg-light-gray-1 text-white-custome focus-visible:ring-0"
                       {...field}
                     />
                   </FormControl>
@@ -74,7 +74,7 @@ export default function FormConversion() {
                     <Input
                       type="text"
                       placeholder="BTC"
-                      className="mb-4 w-full rounded-md border-none bg-light-gray-1 text-white-custome"
+                      className="mb-4 w-full rounded-none border-none bg-light-gray-1 text-white-custome focus-visible:ring-0"
                       {...field}
                     />
                   </FormControl>
@@ -86,49 +86,54 @@ export default function FormConversion() {
           </div>
           <Button
             type="submit"
-            className="mt-5 w-full bg-light-green font-semibold text-dark hover:bg-light-green/80"
+            className="mt-5 w-full rounded-none bg-light-green font-semibold text-dark hover:bg-light-green/80"
           >
             convert
           </Button>
         </form>
       </Form>
 
-      {dataConversion.length > 0 && (
-        <div className="mt-8 w-full">
-          {dataConversion.map((data) => (
-            <div key={data.id} className="mb-5 rounded-md bg-light-gray-1">
-              <div className="mb-8 flex items-center justify-between">
-                <p className="w-full text-center text-2xl font-semibold text-light-gray-2">
-                  {formatCurrency(data.quote.USD.price, "USD")}
-                </p>
-
-                <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-tr-md bg-light-green">
-                  <p className="text-base font-semibold text-dark">
-                    {data.symbol}
+      <div className="overflow-y-auto py-8 md:h-[71vh] lg:h-[79vh] lg:w-[60%] lg:py-2">
+        {dataConversion.length > 0 && (
+          <div className="flex h-fit w-full flex-wrap items-start gap-5 md:overflow-y-auto">
+            {dataConversion.map((data) => (
+              <div
+                key={data.id}
+                className="flex h-32 w-full flex-col justify-between rounded-md bg-light-gray-1 md:w-[48%]"
+              >
+                <div className="mb-8 flex items-center justify-between">
+                  <p className="w-full text-center text-2xl font-semibold text-light-gray-2">
+                    {formatCurrency(data.quote.USD.price, "USD")}
                   </p>
-                  <div className="absolute right-full top-0 h-20 w-0.5 bg-dark" />
-                  <div className="absolute right-0 top-full h-0.5 w-40 bg-dark" />
+
+                  <div className="relative flex h-14 w-14 shrink-0 items-center justify-center rounded-tr-md bg-light-green">
+                    <p className="text-base font-semibold text-dark">
+                      {data.symbol}
+                    </p>
+                    <div className="absolute right-full top-0 h-20 w-0.5 bg-dark" />
+                    <div className="absolute right-0 top-full h-0.5 w-40 bg-dark" />
+                  </div>
+                </div>
+
+                <div className="flex justify-evenly pb-5">
+                  <div className="flex items-end gap-x-2 md:flex-col md:items-center lg:flex-row">
+                    <p className="text-xs text-light-gray-2">name</p>
+                    <p className="text-nowrap text-xs text-white-custome">
+                      {data.name}
+                    </p>
+                  </div>
+                  <div className="flex items-end gap-x-2 md:flex-col md:items-center lg:flex-row">
+                    <p className="text-xs text-light-gray-2">update</p>
+                    <p className="text-nowrap text-xs text-white-custome">
+                      {formatDate(data.last_updated)}
+                    </p>
+                  </div>
                 </div>
               </div>
-
-              <div className="flex justify-evenly pb-5">
-                <div className="flex items-end gap-x-2">
-                  <p className="text-xs text-light-gray-2">name</p>
-                  <p className="text-nowrap text-xs text-white-custome">
-                    {data.name}
-                  </p>
-                </div>
-                <div className="flex items-end gap-x-2">
-                  <p className="text-xs text-light-gray-2">update</p>
-                  <p className="text-nowrap text-xs text-white-custome">
-                    {formatDate(data.last_updated)}
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

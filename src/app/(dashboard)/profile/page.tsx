@@ -12,7 +12,7 @@ export default async function Profile() {
     (await getUser({ by: "email", value: session?.user.email })).data;
 
   return (
-    <div className="mb-10 mt-20 h-fit bg-dark px-7">
+    <div className="relative mb-10 mt-20 h-fit bg-dark px-7 md:ml-56 md:mt-10 md:h-[93.5%]">
       <p className="text-md mb-4 text-center font-medium text-white-custome">
         Edit Profile
       </p>

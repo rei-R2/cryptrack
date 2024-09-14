@@ -22,7 +22,7 @@ export default function SelectCurrencyMetrics() {
 
   return (
     <Select onValueChange={(value) => setSelect(value)}>
-      <SelectTrigger className="w-full border-light-gray-1 text-light-gray-2">
+      <SelectTrigger className="w-full rounded-none border-none bg-light-gray-1 text-light-gray-2">
         <SelectValue
           placeholder="choose currency"
           className="text-light-gray-2"

@@ -2,7 +2,7 @@ import Image from "next/image";
 import { DataCrypto, InfoCrypto, Sessionn } from "@/typs";
 import { getUser } from "@/utils/users";
 import { getCrypto, getInfoCrypto } from "@/utils/crypto";
-import { formatCurrency } from "@/utils/formatData";
+import { formatCurrency, formatNumber } from "@/utils/formatData";
 import clsx from "clsx";
 import { Skeleton } from "@/components/ui/skeleton";
 import { getServerSession } from "next-auth";
@@ -23,7 +23,7 @@ export default async function ListCardWatchlist() {
   );
 
   return (
-    <div className="card-watchlist mb-4 flex gap-x-5 overflow-x-auto px-7 py-4">
+    <div className="card-watchlist relative mb-4 flex gap-x-5 overflow-x-auto px-7 py-4 md:h-[86%] md:gap-y-5 md:overflow-y-auto lg:flex-col">
       {!listCryptoById ? (
         <p className="text-center text-lg font-semibold text-light-gray-2">
           Empty Watchlist
@@ -32,38 +32,47 @@ export default async function ListCardWatchlist() {
         listCryptoById.map((data, i) => (
           <div
             key={data.id}
-            className="flex h-40 w-[268px] shrink-0 flex-col justify-between rounded-md bg-light-gray-1 p-4"
+            className="flex h-fit w-52 shrink-0 flex-col justify-between bg-gradient-to-b from-light-gray-1 to-dark p-4"
           >
-            <div className="flex items-center gap-x-3">
+            <div className="mb-6 flex items-center gap-x-4 md:mb-5">
               {listInfoCryptoById && listInfoCryptoById[i] ? (
-                <div className="relative h-10 w-10 overflow-hidden rounded-full">
+                <div className="relative h-10 w-10 overflow-hidden rounded-full md:h-9 md:w-9">
                   <Image
                     src={listInfoCryptoById[i].logo}
                     alt={data.name}
                     fill={true}
                     sizes="100%"
-                    className="object-cover"
+                    className="object-cove"
                   />
                 </div>
               ) : (
                 <Skeleton className="h-10 w-10 rounded-full" />
               )}
-              <p className="font-semibold text-white-custome">{data.name}</p>
-            </div>
-            <div className="flex items-end justify-between">
               <div>
-                <p className="mb-1 text-light-gray-2">today</p>
-                <PercentChange
-                  percent={Number(data.quote.USD.percent_change_24h.toFixed(2))}
-                />
+                <p className="font-semibold text-white-custome">{data.name}</p>
+                <p className="text-xs text-light-gray-2">{data.symbol}</p>
               </div>
-              <p className="text-2xl font-semibold text-white-custome">
+            </div>
+
+            <div className="mb-6 md:mb-5">
+              <p className="mb-1 text-2xl font-medium text-white-custome">
                 {formatCurrency(data.quote.USD.price, "USD")}
               </p>
+              <p className="text-xs text-light-gray-2">
+                {formatNumber(data.circulating_supply)} {data.symbol}
+              </p>
+            </div>
+
+            <div className="flex items-center">
+              <PercentChange
+                percent={Number(data.quote.USD.percent_change_24h.toFixed(2))}
+              />{" "}
+              <span className="ml-1 text-xs text-light-gray-2">/today</span>
             </div>
           </div>
         ))
       )}
+      <div className="fixed bottom-0 left-56 hidden h-20 w-[16.5rem] bg-gradient-to-b from-dark/0 to-dark md:block" />
     </div>
   );
 }

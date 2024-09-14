@@ -53,7 +53,7 @@ export default function FormEditProfile({ user }: { user: DataUser | null }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, toast]);
   return (
-    <div className="mx-auto mt-10">
+    <div className="mx-auto mt-10 w-full lg:mt-16 lg:w-96">
       <form
         action={formAction}
         onSubmit={() => setIsLoading(true)}
@@ -84,7 +84,7 @@ export default function FormEditProfile({ user }: { user: DataUser | null }) {
         <Button
           disabled={isLoading}
           type="submit"
-          className="mt-5 w-full bg-blue-500 transition duration-500 hover:bg-blue-500/80"
+          className="mt-5 w-full rounded-none bg-blue-500 transition duration-500 hover:bg-blue-500/80"
         >
           {isLoading ? "Loading..." : "Save Change"}
         </Button>
@@ -112,7 +112,7 @@ const Field = ({
     <div className="mt-1">
       <Label
         htmlFor={element}
-        className={`${status === 400 && message![element] ? "text-red-500" : "text-light-gray-2"} mb-2 block text-sm`}
+        className={`${status === 400 && message![element] ? "text-red-500" : "text-light-gray-2"} block text-sm font-normal`}
       >
         {element}
       </Label>
@@ -121,7 +121,7 @@ const Field = ({
         type={typeInput}
         name={element}
         defaultValue={defaultValue}
-        className="rounded-none border-x-0 border-b-[1px] border-t-0 border-light-gray-2 bg-dark text-start text-white-custome file:bg-light-gray-1 file:text-light-gray-2 focus-visible:ring-0"
+        className="rounded-none border-x-0 border-b-[1px] border-t-0 border-light-gray-2 px-0 text-base text-white-custome file:bg-light-gray-1 file:text-light-gray-2 focus-visible:ring-0"
       />
       {status === 400 && message![element] && (
         <p className="mt-1 text-sm text-red-500">{message![element]}</p>

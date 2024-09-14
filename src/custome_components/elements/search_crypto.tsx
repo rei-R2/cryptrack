@@ -21,7 +21,7 @@ export default function SearchCrypto() {
   return (
     <Input
       placeholder="Search coin"
-      className="mb-4 rounded-md border-none bg-light-gray-1 text-white-custome"
+      className="mb-4 rounded-none border-none bg-light-gray-1 text-white-custome focus-visible:ring-0 md:w-96"
       onChange={(e) => setSearch(e.target.value.toLowerCase())}
     />
   );

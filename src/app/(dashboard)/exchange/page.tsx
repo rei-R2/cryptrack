@@ -6,13 +6,17 @@ import ListExchange from "@/custome_components/fragments/list_exchange";
 export default async function Exchange() {
   const exchanges: DataMapExchange[] = await getListExchange();
   return (
-    <div className="mt-32 min-h-screen bg-dark">
+    <div className="relative mt-32 h-fit md:ml-56 md:mt-0">
       <BreadcrumbCustome />
-      <p className="mb-4 px-7 text-xl font-semibold text-white-custome">
-        Exchange
-      </p>
+      <div className="absolute top-14 hidden h-1 w-full bg-light-gray-1 md:block" />
 
-      <ListExchange exchanges={exchanges} />
+      <div className="md:mt-5">
+        <p className="mb-4 px-7 text-xl font-semibold text-white-custome">
+          Exchange
+        </p>
+
+        <ListExchange exchanges={exchanges} />
+      </div>
     </div>
   );
 }

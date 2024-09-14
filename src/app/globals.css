@@ -46,5 +46,29 @@ input[type="number"] {
   --ag-background-color: #141414;
   --ag-foreground-color: #f9f9f9;
   --ag-row-hover-color: #272727;
-  --ag-border-radius: "50%";
+  --ag-borders: none;
+  --ag-wrapper-border-radius: 0px;
+}
+
+::-webkit-scrollbar {
+  width: 0px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+::-webkit-scrollbar-corner {
+  background: #f1f1f1;
 }

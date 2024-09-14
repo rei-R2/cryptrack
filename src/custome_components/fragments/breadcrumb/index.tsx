@@ -29,7 +29,7 @@ export default function BreadcrumbCustome() {
   }
 
   return (
-    <Breadcrumb className="mb-4 px-7">
+    <Breadcrumb className="mb-4 px-7 md:mb-0 md:py-5">
       <BreadcrumbList>
         {links.slice(1).map((value, i) =>
           value !== "/" ? (

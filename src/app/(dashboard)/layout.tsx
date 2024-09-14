@@ -6,12 +6,12 @@ import { SessionProvider } from "next-auth/react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <div className="bg-dark lg:h-screen lg:overflow-hidden">
       <SessionProvider>
         <Navbar />
         {children}
         <Toaster />
       </SessionProvider>
-    </>
+    </div>
   );
 }

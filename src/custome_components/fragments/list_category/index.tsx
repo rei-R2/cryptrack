@@ -109,7 +109,7 @@ export default function ListCategories({
   return (
     <div
       id="myGrid"
-      className="ag-theme-quartz table-categories h-[80%] bg-dark px-5"
+      className="ag-theme-quartz table-categories h-[65vh] px-5 md:h-[87vh] lg:h-[79vh]"
     >
       <AgGridReact<any>
         rowData={rowData}
